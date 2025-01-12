@@ -1,5 +1,5 @@
-import * as TreeBuilder from '../treeView/builder.js'
-import * as TreeView from "../treeView/renderer.js"
+import * as TreeBuilder from '../treeView/build.js'
+import * as TreeView from "../treeView/render.js"
 import { DEV } from "../index.js"
 
 export const CollectionName = 'users'
