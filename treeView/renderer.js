@@ -1,5 +1,5 @@
 
-import {Classes, collapsedTemplate, expandedTemplate } from './templates.js'
+//import { collapsedTemplate, expandedTemplate } from './templates.js'
 
 /**
  * Render the tree into DOM container
@@ -20,7 +20,7 @@ export function render(tree, targetElement) {
 
 function hideNodeChildren(node) {
    node.children.forEach((child) => {
-      child.el.classList.add(Classes.HIDDEN);
+      child.el.classList.add('hidden');
       if (child.isExpanded) {
          hideNodeChildren(child);
       }
@@ -29,7 +29,7 @@ function hideNodeChildren(node) {
 
 function showNodeChildren(node) {
    node.children.forEach((child) => {
-      child.el.classList.remove(Classes.HIDDEN);
+      child.el.classList.remove('hidden');
       if (child.isExpanded) {
          showNodeChildren(child);
       }
@@ -38,18 +38,18 @@ function showNodeChildren(node) {
 
 function setCaretIconDown(node) {
    if (node.children.length > 0) {
-      const icon = node.el.querySelector('.' + Classes.ICON);
+      const icon = node.el.querySelector('.' + 'fas');
       if (icon) {
-         icon.classList.replace(Classes.CARET_RIGHT, Classes.CARET_DOWN);
+         icon.classList.replace('fa-caret-right', 'fa-caret-down');
       }
    }
 }
 
 function setCaretIconRight(node) {
    if (node.children.length > 0) {
-      const icon = node.el.querySelector('.' + Classes.ICON);
+      const icon = node.el.querySelector('.' + 'fas');
       if (icon) {
-         icon.classList.replace(Classes.CARET_DOWN, Classes.CARET_RIGHT);
+         icon.classList.replace('fa-caret-down', 'fa-caret-right');
       }
    }
 }
@@ -67,7 +67,7 @@ function createNodeElement(node) {
          value: node.value,
          size: getSizeString(node),
       })
-      const caretEl = el.querySelector('.' + Classes.CARET_ICON);
+      const caretEl = el.querySelector('.' + 'caret-icon');
       caretEl.addEventListener('click', () => toggleNode(node));
       node.dispose = caretEl.removeEventListener('click', () => toggleNode(node));//listen(caretEl, 'click', () => toggleNode(node));
    } else {
@@ -81,7 +81,7 @@ function createNodeElement(node) {
    const lineEl = el.children[0];
 
    if (node.parent !== null) {
-      lineEl.classList.add(Classes.HIDDEN);
+      lineEl.classList.add('hidden');
    }
 
    lineEl.style = 'margin-left: ' + node.depth * 18 + 'px;';
@@ -128,7 +128,7 @@ export function traverse(node, callback) {
 
 export function expand(node) {
    traverse(node, function (child) {
-      child.el.classList.remove(Classes.HIDDEN);
+      child.el.classList.remove('hidden');
       child.isExpanded = true;
       setCaretIconDown(child);
    });
@@ -137,7 +137,7 @@ export function expand(node) {
 export function collapse(node) {
    traverse(node, function (child) {
       child.isExpanded = false;
-      if (child.depth > node.depth) child.el.classList.add(Classes.HIDDEN);
+      if (child.depth > node.depth) child.el.classList.add('hidden');
       setCaretIconRight(child);
    });
 }
@@ -150,3 +150,28 @@ export function destroy(tree) {
    })
    tree.el.parentNode.parentNode.removeChild(node);
 }
+
+/** returns a collapsed tree element */
+export function collapsedTemplate(params = {}) {
+   const { key, value, type } = params;
+   return `
+     <div class="line">
+       <div class="empty-icon"></div>
+       <div class="json-key">${key}</div>
+       <div class="json-separator">:</div>
+       <div class="json-value json-${type}">${value}</div>
+     </div>
+   `;
+}
+
+/** returns an expanded tree element  */
+export function expandedTemplate(params = {}) {
+   const { key, size } = params;
+   return `
+     <div class="line">
+       <div class="caret-icon"><i class="fas fa-caret-right"></i></div>
+       <div class="json-key">${key}</div>
+       <div class="json-size">${size}</div>
+     </div>
+   `;
+ }
