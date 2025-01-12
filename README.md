@@ -11,7 +11,9 @@ This simple client demonstrates a minimal asynchronous-transaction-based SSE-KV-
 It's using Server-Sent-Events to execute Remote-Procedure-Calls to a remote Deno-kvDB.    
 See: _./dbClient.js/_ in this repo.   
 
-## try it: https://nhrones.github.io/KvTreeClient/   
+![Click here](here.png)   
+Click the root-node to begin to open the tree.
+## Try it: https://nhrones.github.io/KvTreeClient/   
 
 This example connects to an SSE-KV-RPC service located on Deno Deploy.    
 See service repo: https://github.com/nhrones/KvTreeService 
