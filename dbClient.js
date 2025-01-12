@@ -6,7 +6,7 @@ export const CollectionName = 'users'
 export const DBServiceURL = "https://kvtreeservice.deno.dev/"
 export const RegistrationURL = DBServiceURL + "RpcRegistration"
 
-let nextMsgID = 0;
+let nextTxID = 0;
 
 const transactions = new Map();
 
@@ -15,7 +15,7 @@ const transactions = new Map();
  */
 export class DbClient {
 
-   nextMsgID = 0
+   nextTxID = 0
    querySet = []
 
    transactions
@@ -63,8 +63,8 @@ See: readme.md.`)
 
       /* 
       When we get a message from the service we expect 
-      an object containing {msgID, error, and result}.
-      We then find the transaction that was registered for this msgID, 
+      an object containing {txID, error, and result}.
+      We then find the transaction that was registered for this txID, 
       and execute it with the error and result properities.
       This will resolve or reject the promise that was
       returned to the client when the transaction was created.
@@ -163,9 +163,9 @@ See: readme.md.`)
  */
 export const Call = ( procedure, params ) => {
 
-   const txID = nextMsgID++;
+   const txID = nextTxID++;
 
-   if (DEV) console.log(`RPC msg ${txID} called ${procedure} with ${JSON.stringify(params)}`);
+   if (DEV) console.log(`RPC txID ${txID} called ${procedure} with ${JSON.stringify(params)}`);
 
    return new Promise((resolve, reject) => {
       transactions.set(txID, (error, result) => {
