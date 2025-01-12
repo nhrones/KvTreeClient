@@ -12,7 +12,7 @@ export function render(tree, targetElement) {
       node.el = createNodeElement(node);
       containerEl.appendChild(node.el);
    });
-
+   targetElement.innerHTML = ""
    targetElement.appendChild(containerEl);
 }
 
