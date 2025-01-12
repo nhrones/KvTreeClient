@@ -1,8 +1,6 @@
 
-//import { collapsedTemplate, expandedTemplate } from './templates.js'
-
 /**
- * Render the tree into DOM container
+ * Render the tree into a DOM container
  * @param {object} tree
  * @param {htmlElement} targetElement
  */
@@ -55,7 +53,7 @@ function setCaretIconRight(node) {
 }
 
 /**
- * Create node html element
+ * Create a DOM element from node object
  * @param {object} node 
  * @return html element
  */
@@ -69,7 +67,7 @@ function createNodeElement(node) {
       })
       const caretEl = el.querySelector('.' + 'caret-icon');
       caretEl.addEventListener('click', () => toggleNode(node));
-      node.dispose = caretEl.removeEventListener('click', () => toggleNode(node));//listen(caretEl, 'click', () => toggleNode(node));
+      node.dispose = caretEl.removeEventListener('click', () => toggleNode(node));
    } else {
       el.innerHTML = collapsedTemplate({
          key: node.key,
@@ -100,6 +98,10 @@ const getSizeString = (node) => {
 //            exports 
 // =============================
 
+/**
+ * toggle tree-node expanded
+ * @param {object} node 
+ */
 export function toggleNode(node) {
    if (node.isExpanded) {
       node.isExpanded = false;
@@ -113,7 +115,7 @@ export function toggleNode(node) {
 }
 
 /**
- * Recursively traverse Tree object
+ * Recursively traverse a tree-object
  * @param {Object} node
  * @param {Callback} callback
  */
@@ -126,6 +128,10 @@ export function traverse(node, callback) {
    }
 }
 
+/**
+ * expand a tree-node
+ * @param {object} node 
+ */
 export function expand(node) {
    traverse(node, function (child) {
       child.el.classList.remove('hidden');
@@ -134,6 +140,10 @@ export function expand(node) {
    });
 }
 
+/**
+ * collapse a tree-node
+ * @param {object} node 
+ */
 export function collapse(node) {
    traverse(node, function (child) {
       child.isExpanded = false;
@@ -142,6 +152,10 @@ export function collapse(node) {
    });
 }
 
+/**
+ * destroy a tree
+ * @param {object} tree 
+ */
 export function destroy(tree) {
    traverse(tree, (node) => {
       if (node.dispose) {
@@ -151,7 +165,9 @@ export function destroy(tree) {
    tree.el.parentNode.parentNode.removeChild(node);
 }
 
-/** returns a collapsed tree element */
+/** 
+ * returns a collapsed tree element 
+ */
 export function collapsedTemplate(params = {}) {
    const { key, value, type } = params;
    return `
@@ -164,7 +180,9 @@ export function collapsedTemplate(params = {}) {
    `;
 }
 
-/** returns an expanded tree element  */
+/** 
+ * returns an expanded tree element  
+ */
 export function expandedTemplate(params = {}) {
    const { key, size } = params;
    return `

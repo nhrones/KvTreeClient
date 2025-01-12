@@ -1,8 +1,8 @@
 
 /**
- * Create the Tree object with children
- * @param {object | string} kvData 
- * @return {object} a root node object with children
+ * Creates a Root-Tree node with children
+ * @param { object | string } kvData 
+ * @return { object } a root tree-node with children
  */
 export function create(kvData) {
    const rootNode = createNode({
@@ -15,17 +15,15 @@ export function create(kvData) {
 }
 
 /**
- * Create node object
- * @param {object} opt options
- * @return {object} a tree object
+ * Create tree-node object
+ * @param { object } opt options
+ * @return { object } a tree object
  */
 function createNode(opt = {}) {
    let value = opt['value'] ?? null;
    
    if (isEmptyObject(value)) value = "{ }";
-   
-   //console.info(`createNode type: ${opt.type} value: ${value}`)
-   
+
    if (opt.type === 'string') value = `"${value}"`
    return {
       key: opt.key || null,
@@ -55,7 +53,6 @@ function createSubnode(data, node) {
             type: getDataType(data[key]),
             parent: node,
          });
-         //ndh recursive
          node.children.push(child);
          createSubnode(data[key], child);
       }
@@ -63,7 +60,7 @@ function createSubnode(data, node) {
 }
 
 /** 
- * Get a values data type 
+ * Get a kv-value data type 
  */
 function getDataType(value) {
    if (Array.isArray(value)) return 'array';

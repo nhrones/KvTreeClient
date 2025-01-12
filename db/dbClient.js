@@ -1,6 +1,6 @@
-import * as TreeBuilder from './treeView/builder.js'
-import * as TreeView from "./treeView/renderer.js"
-import { DEV } from "./main.js"
+import * as TreeBuilder from '../treeView/builder.js'
+import * as TreeView from "../treeView/renderer.js"
+import { DEV } from "../index.js"
 
 export const CollectionName = 'users'
 export const DBServiceURL = "https://kvtreeservice.deno.dev/"
