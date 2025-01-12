@@ -6,6 +6,8 @@ import { getTreeObj } from "../treeView/TreeNodes.js"
 
 export const CollectionName = 'users'
 export const DBServiceURL = "https://kvtreeservice.deno.dev/"
+//export const DBServiceURL = "http://localhost:9099/"
+
 export const RegistrationURL = DBServiceURL + "RpcRegistration"
 
 let nextTxID = 0;
