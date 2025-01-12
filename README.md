@@ -9,7 +9,10 @@ This is an unfinished work that was testing the concept of showing multipart-key
 ## About
 This simple client demonstrates a minimal asynchronous-transaction-based SSE-KV-RPC service.    
 It's using Server-Sent-Events to execute Remote-Procedure-Calls to a remote Deno-kvDB.    
-See: _./dbClient.js/_ in this repo.
+See: _./dbClient.js/_ in this repo.   
+
+## try it: 
+https://nhrones.github.io/KvTreeClient/   
 
 This example connects to an SSE-KV-RPC service located on Deno Deploy.    
 See service repo: https://github.com/nhrones/KvTreeService 
