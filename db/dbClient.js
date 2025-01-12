@@ -2,6 +2,8 @@ import * as TreeBuilder from '../treeView/build.js'
 import * as TreeView from "../treeView/render.js"
 import { DEV } from "../index.js"
 
+import { getTreeObj } from "../treeView/TreeNodes.js"
+
 export const CollectionName = 'users'
 export const DBServiceURL = "https://kvtreeservice.deno.dev/"
 export const RegistrationURL = DBServiceURL + "RpcRegistration"
@@ -89,7 +91,9 @@ See: readme.md.`)
          .then((result) => {
             if (typeof result === "string") {
                const resultJson = JSON.parse(result)
-               const tree = TreeBuilder.create(resultJson.kv);
+               const to = getTreeObj(resultJson)
+               //const tree = TreeBuilder.create(resultJson.kv);
+               const tree = TreeBuilder.create(to.kv);
                TreeView.render(tree, document.querySelector('.root'));
             } else {
                console.log('Ooopppps: ', typeof result)
