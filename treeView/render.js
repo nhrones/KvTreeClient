@@ -1,13 +1,20 @@
+import { buildTreeNodes } from "./nodes.js"
+import { createTree } from "./build.js"
 
 /**
- * Render the tree into a DOM container
- * @param {object} tree
- * @param {htmlElement} targetElement
+ * Render an object-tree into a DOM container
+ * @param { object } data a set kv-data objects
+ * @param { htmlElement } targetDOM Element to place this treeView
  */
-export function render(tree, targetElement) {
+export function renderTreeView(data, targetElement) {
+
    const containerEl = document.createElement('div');
    containerEl.className = 'elem-container';
-   
+
+   const nodes = buildTreeNodes(JSON.parse(data))
+   const tree = createTree(nodes.kv);
+   //renderTree(tree, document.querySelector('.root'));
+
    traverse(tree, function (node) {
       node.el = createNodeElement(node);
       containerEl.appendChild(node.el);
@@ -99,8 +106,8 @@ const getSizeString = (node) => {
 // =============================
 
 /**
- * toggle tree-node expanded
- * @param {object} node 
+ * toggle tree-node is-expanded flag
+ * @param {object} node a tree-node object
  */
 export function toggleNode(node) {
    if (node.isExpanded) {
@@ -129,7 +136,7 @@ export function traverse(node, callback) {
 }
 
 /**
- * expand a tree-node
+ * Expands a tree-node
  * @param {object} node 
  */
 export function expand(node) {
@@ -141,7 +148,7 @@ export function expand(node) {
 }
 
 /**
- * collapse a tree-node
+ * Collapse a tree-node
  * @param {object} node 
  */
 export function collapse(node) {
@@ -153,7 +160,7 @@ export function collapse(node) {
 }
 
 /**
- * destroy a tree
+ * Destroy the tree
  * @param {object} tree 
  */
 export function destroy(tree) {
@@ -166,7 +173,7 @@ export function destroy(tree) {
 }
 
 /** 
- * returns a collapsed tree element 
+ * Return a collapsed tree element 
  */
 export function collapsedTemplate(params = {}) {
    const { key, value, type } = params;
@@ -181,7 +188,7 @@ export function collapsedTemplate(params = {}) {
 }
 
 /** 
- * returns an expanded tree element  
+ * Return an expanded tree element  
  */
 export function expandedTemplate(params = {}) {
    const { key, size } = params;

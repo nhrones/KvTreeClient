@@ -1,15 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
-//import * as Kv from "./kvdb.ts";
 
 /**
- * This module converts raw-Kv into a collection that
- * simplifies building tree-nodes.
+ * Convert Kv data into a collection that simplifies    
+ * building a custom DOM-TreeView.
+ * @param { object } nodes an array of db key/values 
  */
-
-// deno-lint-ignore no-unused-vars
-//let tree = null
-
-export function getTreeObj(nodes) {
+export function buildTreeNodes(nodes) {
    const to = { kv: {} }
    for (let index = 0; index < nodes.length; index++) {
       processNode(to, nodes[index])
@@ -17,17 +13,7 @@ export function getTreeObj(nodes) {
    return to;
 }
 
-/**
- * load the kv shaddow-cache on startup
- */
-//await Kv.loadCache().then( () => {
-//   const raw = [...Kv.shadowCache.entries()]
-//   const _tree = getTreeObj(raw)
-//})
-
-/**
- * process a node
- */
+// convert db key values to an efficient tree-node object 
 function processNode(to, node) {
 
    const k = node[0]

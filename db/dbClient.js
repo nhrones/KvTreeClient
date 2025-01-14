@@ -1,18 +1,12 @@
-import * as TreeBuilder from '../treeView/build.js'
-import * as TreeView from "../treeView/render.js"
-import { DEV } from "../index.js"
-
-import { getTreeObj } from "../treeView/TreeNodes.js"
-
 export const CollectionName = 'users'
-export const DBServiceURL = "https://kvtreeservice.deno.dev/"
-//export const DBServiceURL = "http://localhost:9099/"
+//export const DBServiceURL = "https://kvtreeservice.deno.dev/"
+export const DBServiceURL = "http://localhost:9099/"
 
 export const RegistrationURL = DBServiceURL + "RpcRegistration"
 
-let nextTxID = 0;
-
+const DEV = true
 const transactions = new Map();
+let nextTxID = 0;
 
 /**
  * This db client communicates with an RPC service.    
@@ -21,18 +15,12 @@ export class DbClient {
 
    nextTxID = 0
    querySet = []
-
-   transactions
-
-   // DB ctor
-   constructor() {  
-      this.transactions = new Map()
-   }
+   transactions = new Map()
 
    /** 
     * initialize our EventSource and fetch some data    
     */
-   init()  {
+   async init(callBack)  {
       let connectAttemps = 0 
       if (DEV) console.log("CONNECTING");
           
@@ -40,7 +28,7 @@ export class DbClient {
       
       eventSource.addEventListener("open", () => {
          if (DEV) console.log("CONNECTED");
-         this.fetchQuerySet()
+         this.fetchDataSet(callBack)
       });
 
       eventSource.addEventListener("error", (_e) => {
@@ -87,25 +75,13 @@ See: readme.md.`)
    /**
     * fetch a querySet      
     */
-   fetchQuerySet() {
+   fetchDataSet(callBack) {
       if (DEV) console.log('fetching')
       Call("GETALL", {})
-         .then((result) => {
-            if (typeof result === "string") {
-               const resultJson = JSON.parse(result)
-               const to = getTreeObj(resultJson)
-               //const tree = TreeBuilder.create(resultJson.kv);
-               const tree = TreeBuilder.create(to.kv);
-               TreeView.render(tree, document.querySelector('.root'));
-            } else {
-               console.log('Ooopppps: ', typeof result)
-            }
-         })
+         .then((result) => callBack(result))
    }
 
-   /**
-    * get row from key
-    */
+   /** get the value from a key */
    get(key) {
       for (let index = 0; index < this.querySet.length; index++) {
          const element = this.querySet[index];
@@ -114,6 +90,7 @@ See: readme.md.`)
    }
 
    /** 
+    * Set a value on a key
     * The `set` method mutates - will call the `persist` method. 
     */
    set(key, value) {
@@ -122,11 +99,8 @@ See: readme.md.`)
          // persist single record to the service
          Call("SET",
             {
-               collection: CollectionName,
-               id: key,
-               value: value,
-               currentPage: this.currentPage,
-               rowsPerPage: this.rowsPerPage
+               key: key,
+               value: value
             })
             .then((result) => {
                if (DEV) console.info('SET call returned ', result.querySet)
@@ -139,11 +113,12 @@ See: readme.md.`)
    }
 
    /** 
+    * Deletes a key/value from the KvDb
     * The `delete` method mutates - will call the `persist` method. 
     */
    delete(key) {
       try {
-         Call("DELETE", { collection: CollectionName, id: key })
+         Call("DELETE", { key: key })
             .then((result) => {
                this.querySet = result.querySet
                this.totalPages = result.totalPages

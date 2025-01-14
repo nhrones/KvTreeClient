@@ -1,10 +1,10 @@
 
 /**
- * Creates a Root-Tree node with children
- * @param { object | string } kvData 
- * @return { object } a root tree-node with children
+ * Creates an object-tree
+ * @param { object } kvData raw data object
+ * @return { object } a transformed object-tree
  */
-export function create(kvData) {
+export function createTree(kvData) {
    const rootNode = createNode({
       value: kvData,
       key: 'kv-prefix:',
