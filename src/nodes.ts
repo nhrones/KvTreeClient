@@ -5,7 +5,7 @@
  * building a custom DOM-TreeView.
  * @param { object } nodes an array of db key/values 
  */
-export function buildTreeNodes(nodes) {
+export function buildTreeNodes(nodes): object {
    const to = { kv: {} }
    for (let index = 0; index < nodes.length; index++) {
       processNode(to, nodes[index])
@@ -14,7 +14,7 @@ export function buildTreeNodes(nodes) {
 }
 
 // convert db key values to an efficient tree-node object 
-function processNode(to, node) {
+function processNode(to: { kv: any; }, node: any[]): void {
 
    const k = node[0]
    const v = node[1]

@@ -1,10 +1,10 @@
-
+import { KVNode } from './render.ts'
 /**
  * Creates an object-tree
  * @param { object } kvData raw data object
  * @return { object } a transformed object-tree
  */
-export function createTree(kvData) {
+export function createTree(kvData): KVNode {
    const rootNode = createNode({
       value: kvData,
       key: 'kv-prefix:',
@@ -19,7 +19,7 @@ export function createTree(kvData) {
  * @param { object } opt options
  * @return { object } a tree object
  */
-function createNode(opt: any) {
+function createNode(opt: any): KVNode {
    let value = opt['value'] ?? null;
    
    if (isEmptyObject(value)) value = "{ }";
@@ -43,7 +43,7 @@ function createNode(opt: any) {
  * @param {object} data
  * @param {object} node
  */
-function createSubnode(data, node) {
+function createSubnode(data, node): void {
    if (typeof data === 'object') {
       for (const key in data) {
          const child = createNode({
@@ -62,7 +62,7 @@ function createSubnode(data, node) {
 /** 
  * Get a kv-value data type 
  */
-function getDataType(value) {
+function getDataType(value): string {
    if (Array.isArray(value)) return 'array';
    if (value === null) return 'null';
    return typeof value;
@@ -71,7 +71,7 @@ function getDataType(value) {
  /** 
   * tests for an empty object 
   */
- const isEmptyObject = (value) => {
+function isEmptyObject (value: object): boolean {
    return (
       getDataType(value) === 'object' &&
       Object.keys(value).length === 0

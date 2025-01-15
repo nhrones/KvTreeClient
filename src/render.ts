@@ -1,22 +1,29 @@
 import { buildTreeNodes } from "./nodes.ts"
 import { createTree } from "./build.ts"
-
+export type KVNode = {
+   key: string;
+   value: any;
+   type: any;
+   isExpanded: boolean;
+   el: HTMLElement;
+   parent: HTMLElement;
+   children: any[];
+   depth: number;
+   dispose: any
+}
 /**
  * Render an object-tree into a DOM container
- * @param { object } data a set kv-data objects
- * @param { htmlElement } targetDOM Element to place this treeView
+ * @param { string } data a string with kv-data objects
+ * @param { HTMLElement } targetElement Element to place this treeView
  */
-export function renderTreeView(data, targetElement) {
-   console.info("renderTreeView called with ", targetElement)
-
+export function renderTreeView(data: string, targetElement: HTMLElement): void {
    const containerEl = document.createElement('div');
    containerEl.className = 'elem-container';
 
-   const nodes = buildTreeNodes(JSON.parse(data))
-   const tree = createTree(nodes.kv);
-   //renderTree(tree, document.querySelector('.root'));
+   const nodes: any = buildTreeNodes(JSON.parse(data))
+   const tree: KVNode = createTree(nodes.kv);
 
-   traverse(tree, function (node) {
+   traverse(tree, function (node: KVNode) {
       node.el = createNodeElement(node);
       containerEl.appendChild(node.el);
    });
@@ -24,7 +31,7 @@ export function renderTreeView(data, targetElement) {
    targetElement.appendChild(containerEl);
 }
 
-function hideNodeChildren(node) {
+function hideNodeChildren(node: KVNode): void {
    node.children.forEach((child) => {
       child.el.classList.add('hidden');
       if (child.isExpanded) {
@@ -33,7 +40,7 @@ function hideNodeChildren(node) {
    });
 }
 
-function showNodeChildren(node) {
+function showNodeChildren(node: KVNode): void {
    node.children.forEach((child) => {
       child.el.classList.remove('hidden');
       if (child.isExpanded) {
@@ -42,7 +49,7 @@ function showNodeChildren(node) {
    });
 }
 
-function setCaretIconDown(node) {
+function setCaretIconDown(node: KVNode): void {
    if (node.children.length > 0) {
       const icon = node.el.querySelector('.' + 'fas');
       if (icon) {
@@ -51,7 +58,7 @@ function setCaretIconDown(node) {
    }
 }
 
-function setCaretIconRight(node) {
+function setCaretIconRight(node: KVNode): void {
    if (node.children.length > 0) {
       const icon = node.el.querySelector('.' + 'fas');
       if (icon) {
@@ -65,7 +72,7 @@ function setCaretIconRight(node) {
  * @param {object} node 
  * @return html element
  */
-function createNodeElement(node) {
+function createNodeElement(node: KVNode): HTMLElement {
    const el = document.createElement('div');
    if (node.children.length > 0) {
       el.innerHTML = expandedTemplate({
@@ -95,7 +102,7 @@ function createNodeElement(node) {
    return lineEl;
 }
 
-const getSizeString = (node) => {
+const getSizeString = (node: KVNode): any => {
    const len = node.children.length;
    if (node.type === 'array') return `[${len}]`;
    if (node.type === 'object') return `{${len}}`;
@@ -108,9 +115,9 @@ const getSizeString = (node) => {
 
 /**
  * toggle tree-node is-expanded flag
- * @param {object} node a tree-node object
+ * @param {*} node a tree-node object
  */
-export function toggleNode(node) {
+export function toggleNode(node: KVNode): void {
    if (node.isExpanded) {
       node.isExpanded = false;
       setCaretIconRight(node);
@@ -124,10 +131,10 @@ export function toggleNode(node) {
 
 /**
  * Recursively traverse a tree-object
- * @param {Object} node
+ * @param { any } node
  * @param {Callback} callback
  */
-export function traverse(node, callback) {
+export function traverse(node: KVNode, callback: any): void {
    callback(node);
    if (node.children.length > 0) {
       node.children.forEach((child) => {
@@ -140,7 +147,7 @@ export function traverse(node, callback) {
  * Expands a tree-node
  * @param {object} node 
  */
-export function expand(node) {
+export function expand(node): void {
    traverse(node, function (child) {
       child.el.classList.remove('hidden');
       child.isExpanded = true;
@@ -152,7 +159,7 @@ export function expand(node) {
  * Collapse a tree-node
  * @param {object} node 
  */
-export function collapse(node) {
+export function collapse(node): void {
    traverse(node, function (child) {
       child.isExpanded = false;
       if (child.depth > node.depth) child.el.classList.add('hidden');
@@ -164,7 +171,7 @@ export function collapse(node) {
  * Destroy the tree
  * @param {object} tree 
  */
-export function destroy(tree) {
+export function destroy(tree): void {
    traverse(tree, (node) => {
       if (node.dispose) {
          node.dispose();
@@ -176,7 +183,7 @@ export function destroy(tree) {
 /** 
  * Return a collapsed tree element 
  */
-export function collapsedTemplate(params = {key:"", value:null, type:""}) {
+export function collapsedTemplate(params = {key:"", value:null, type:""}): string {
    const { key, value, type } = params;
    return `
      <div class="line">
@@ -191,7 +198,7 @@ export function collapsedTemplate(params = {key:"", value:null, type:""}) {
 /** 
  * Return an expanded tree element  
  */
-export function expandedTemplate(params: {key: string, value:any, size: string}) {
+export function expandedTemplate(params: {key: string, value:any, size: string}): string {
    const { key, size } = params;
    return `
      <div class="line">
