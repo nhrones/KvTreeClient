@@ -1,0 +1,15 @@
+{
+   "name": "@ndh/KvTreeView",
+   "version": "0.1.0",
+   "description": "A DenoKv TreeView UI",
+   "exports": "./lib/treeView.js",
+   "license": "MIT",
+   "publish": {
+     "include": [
+       "README.md",
+       "/lib/*",
+       "/src/*",
+       "/example/*"
+     ]
+   }
+ }
