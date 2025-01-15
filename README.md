@@ -1,21 +1,22 @@
 # Kv-TreeViewer
 This is an example application for examining DenoKv data in a TreeView.   
-This app uses a simple RPC service to fetch and prep all DenoKv-db-rows    
-for viewing in a DOM Treeview.  
+This app uses a simple RPC service to fetch all DenoKv-rows from a remote service    
+for viewing in a custom DOM Treeview.  
 
-![kv-tree](./docs/kv-tv.png)
+![kv-tree](./Images/kv-tv.png)
 
 ## Note: 
-This is an unfinished work that was testing the concept of showing multipart-keys in a tree format.    
+This is an unfinished work testing the concept of showing multipart-keys in a tree format.    
 Many features are yet to be implemented.   
+
 This work has now been rolled into another db project that has the ability to use many different peristence layers. (BuenoKV)    
 
 ## About
-This simple client demonstrates a minimal asynchronous-transaction-based SSE-KV-RPC service.    
+This simple client demonstrates a minimal asynchronous-transaction based SSE-KV-RPC service.    
 It's using Server-Sent-Events to execute Remote-Procedure-Call transactions to a remote Deno-kvDB.    
-See: _./dbClient.js/_ in this repo.   
+See: _./remoteKv.js/_ in this repo.   
 
-![Click here](./docs/here.png)   
+![Click here](./Images/here.png)   
 On start, please click the root-node to begin to traverse the tree.
 ## Try it: https://nhrones.github.io/KvTreeClient/   
 
