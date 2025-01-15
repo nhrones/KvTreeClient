@@ -11,6 +11,6 @@
          "./src/render.ts"
       ],
       "Minify": false,
-      "OutPath": "lib"
+      "OutPath": "example"
    }
 }
