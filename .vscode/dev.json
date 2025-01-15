@@ -8,7 +8,7 @@
    "BUILD": {
       "BundleName": "treeView.js",
       "Entry": [
-         "./src/render.ts"
+         "./.src/render.ts"
       ],
       "Minify": false,
       "OutPath": ""

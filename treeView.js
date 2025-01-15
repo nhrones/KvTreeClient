@@ -2,7 +2,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// src/nodes.ts
+// .src/nodes.ts
 function buildTreeNodes(nodes) {
   const to = { kv: {} };
   for (let index = 0; index < nodes.length; index++) {
@@ -36,7 +36,7 @@ function processNode(to, node) {
 }
 __name(processNode, "processNode");
 
-// src/build.ts
+// .src/build.ts
 function createTree(kvData) {
   const rootNode = createNode({
     value: kvData,
@@ -91,7 +91,7 @@ function isEmptyObject(value) {
 }
 __name(isEmptyObject, "isEmptyObject");
 
-// src/render.ts
+// .src/render.ts
 function renderTreeView(data, targetElement) {
   const containerEl = document.createElement("div");
   containerEl.className = "elem-container";
