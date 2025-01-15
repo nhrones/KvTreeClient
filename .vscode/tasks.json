@@ -9,13 +9,8 @@
       "command": "build"
    },
    {
-      "label": "RUN-EXAMPLE",
-      "type": "shell",
-      "command": "serve Example"
-   },
-   {
       "label": "RUN",
       "type": "shell",
-      "command": "serve ."
+      "command": "serve"
    }
 ]}

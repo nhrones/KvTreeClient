@@ -3,8 +3,8 @@
 
 <head>
    <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
-   <link rel="stylesheet" href="./example/styles.css" />
-   <script type=module src="./example/app.js"></script>
+   <link rel="stylesheet" href="./styles.css" />
+   <script type=module src="./demo.js"></script>
    <title>KV Treeview Demo</title>
 </head>
 
@@ -13,24 +13,5 @@
       <h1>Connecting please wait!</h1>
    </div>
 </body>
-
-<script type=module>
-import { DbClient } from '../example/remoteKv.js'
-import { renderTreeView } from "../lib/treeView.js"
-/** 
- * our KvDb source 
- */
-const thisDB = new DbClient()
-
-// on init, returns a set of key/values from a Kv database
-thisDB.init(buildTreeView)
-
-/** 
- * use the raw kvData to build and display a Kv-TreeView
- */
-function buildTreeView(kvData) {
-    renderTreeView(kvData, document.querySelector('.root'));
-}
-</script>
 
 </html>
