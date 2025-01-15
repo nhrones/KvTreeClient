@@ -4,8 +4,18 @@
    "version": "2.0.0",
    "tasks": [
    {
+      "label": "BUILD",
+      "type": "shell",
+      "command": "build"
+   },
+   {
+      "label": "RUN-EXAMPLE",
+      "type": "shell",
+      "command": "serve Example"
+   },
+   {
       "label": "RUN",
       "type": "shell",
-      "command": "serve"
+      "command": "serve ."
    }
 ]}

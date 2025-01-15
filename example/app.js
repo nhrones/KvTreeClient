@@ -1,6 +1,5 @@
-import { DbClient } from './db/dbClient.js'
-import { renderTreeView } from "./treeView/mod.js"
-
+import { DbClient } from './remoteKv.js'
+import { renderTreeView } from "./treeView.js"
 /** 
  * our KvDb source 
  */

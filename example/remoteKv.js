@@ -1,9 +1,14 @@
-export const CollectionName = 'users'
-//export const DBServiceURL = "https://kvtreeservice.deno.dev/"
-export const DBServiceURL = "http://localhost:9099/"
+
+// Is running Locally
+const IsLocal = window.location.href.includes("localhost");
+
+// change DB Service URL based on where running 
+const DBServiceURL = (IsLocal) 
+   ? 'http://localhost:9099/'
+   : 'https://kvtreeservice.deno.dev/'
 
 export const RegistrationURL = DBServiceURL + "RpcRegistration"
-
+console.log("Rpc Registration request:", DBServiceURL)
 const DEV = true
 const transactions = new Map();
 let nextTxID = 0;

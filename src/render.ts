@@ -1,5 +1,5 @@
-import { buildTreeNodes } from "./nodes.js"
-import { createTree } from "./build.js"
+import { buildTreeNodes } from "./nodes.ts"
+import { createTree } from "./build.ts"
 
 /**
  * Render an object-tree into a DOM container
@@ -7,6 +7,7 @@ import { createTree } from "./build.js"
  * @param { htmlElement } targetDOM Element to place this treeView
  */
 export function renderTreeView(data, targetElement) {
+   console.info("renderTreeView called with ", targetElement)
 
    const containerEl = document.createElement('div');
    containerEl.className = 'elem-container';
@@ -70,9 +71,9 @@ function createNodeElement(node) {
       el.innerHTML = expandedTemplate({
          key: node.key,
          value: node.value,
-         size: getSizeString(node),
+         size: getSizeString(node) as string,
       })
-      const caretEl = el.querySelector('.' + 'caret-icon');
+      const caretEl = el.querySelector('.' + 'caret-icon') as HTMLElement;
       caretEl.addEventListener('click', () => toggleNode(node));
       node.dispose = caretEl.removeEventListener('click', () => toggleNode(node));
    } else {
@@ -83,12 +84,12 @@ function createNodeElement(node) {
       })
    }
 
-   const lineEl = el.children[0];
+   const lineEl = el.children[0] as HTMLElement;
 
    if (node.parent !== null) {
       lineEl.classList.add('hidden');
    }
-
+   //@ts-ignore
    lineEl.style = 'margin-left: ' + node.depth * 18 + 'px;';
 
    return lineEl;
@@ -168,14 +169,14 @@ export function destroy(tree) {
       if (node.dispose) {
          node.dispose();
       }
+      tree.el.parentNode.parentNode.removeChild(node);
    })
-   tree.el.parentNode.parentNode.removeChild(node);
 }
 
 /** 
  * Return a collapsed tree element 
  */
-export function collapsedTemplate(params = {}) {
+export function collapsedTemplate(params = {key:"", value:null, type:""}) {
    const { key, value, type } = params;
    return `
      <div class="line">
@@ -190,7 +191,7 @@ export function collapsedTemplate(params = {}) {
 /** 
  * Return an expanded tree element  
  */
-export function expandedTemplate(params = {}) {
+export function expandedTemplate(params: {key: string, value:any, size: string}) {
    const { key, size } = params;
    return `
      <div class="line">

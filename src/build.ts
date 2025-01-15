@@ -19,7 +19,7 @@ export function createTree(kvData) {
  * @param { object } opt options
  * @return { object } a tree object
  */
-function createNode(opt = {}) {
+function createNode(opt: any) {
    let value = opt['value'] ?? null;
    
    if (isEmptyObject(value)) value = "{ }";

@@ -1,8 +1,16 @@
 {
    "RUN": {
-      "Serve": "",
+      "Serve": ".",
       "Port": 80,
       "DEV": true,
       "HtmlName": "index.html"
+   },
+   "BUILD": {
+      "BundleName": "treeView.js",
+      "Entry": [
+         "./src/render.ts"
+      ],
+      "Minify": false,
+      "OutPath": "example"
    }
 }
